@@ -142,6 +142,28 @@ class Client:
         except requests.RequestException as e:
             raise APIError(0, str(e)) from e
 
+        # Try parsing JSON first — server's error envelope is JSON too.
+        try:
+            payload = resp.json()
+        except ValueError:
+            payload = None
+
+        # Server uses {"success": bool, "data": {...} | "error": "..."} envelope.
+        # Normalise that here so callers always get the inner data dict.
+        if isinstance(payload, dict) and 'success' in payload:
+            if payload.get('success'):
+                # 200 / 201 with success=true — unwrap data, fall back to whole payload.
+                return payload.get('data', payload)
+            err_msg = payload.get('error') or resp.text or 'Unknown error'
+            if resp.status_code == 401:
+                raise AuthError(err_msg)
+            if resp.status_code == 404:
+                raise NotFoundError(err_msg)
+            if resp.status_code == 429:
+                raise RateLimitError(err_msg)
+            raise APIError(resp.status_code, err_msg)
+
+        # No envelope: rely on HTTP status alone.
         if resp.status_code == 401:
             raise AuthError(resp.text or "Unauthorized")
         if resp.status_code == 404:
@@ -151,7 +173,6 @@ class Client:
         if not resp.ok:
             raise APIError(resp.status_code, resp.text)
 
-        try:
-            return resp.json()
-        except ValueError:
+        if payload is None:
             raise APIError(resp.status_code, "Non-JSON response")
+        return payload
