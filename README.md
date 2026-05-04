@@ -23,9 +23,8 @@ no cached snapshots — actual scans every time.
 
 - **Ports** — any selection: `"22,80,443"`, ranges `"1-65535"`, or full top-list.
 - **Modules** — pick what gets collected (see [What gets collected](#what-gets-collected) below).
-- **Speed** — your scanner kpps (packets-per-second × 1000), set on your plan:
-  - Free tier: capped at `2` kpps.
-  - Paid: from `100` kpps (entry) up to `10000` kpps (high-throughput recon).
+- **Speed** — your scanner kpps (packets-per-second × 1000), set by your plan.
+  Free tier is capped at 2 kpps. Paid plans start at 100 kpps and scale up.
 - **Wait or fire-and-forget** — block until done with `scan_wait()`, or poll
   with `scan_status()`.
 
@@ -61,11 +60,19 @@ Pick which modules run; results are returned per host/port in the scan status re
 | `subdomains` | Subdomain enumeration (subfinder + crt.sh + DNS resolve) for any domain targets in your list. |
 | `tech` | Web technology-stack detection (Wappalyzer-style) — CMS, frameworks, JS libs, server software. |
 
+## Pricing
+
+Pay for scan speed only. Linear: **$0.30 per kpps / month**, starting at
+**$30/mo for 100 kpps**, scaling up to high-throughput tiers. Free tier
+available — no credit card. Crypto checkout supported.
+
+See https://scansearch.net/pricing/ for current details.
+
 ## Free vs Paid limits
 
 | | Free | Paid |
 |---|---|---|
-| Scan speed | 2 kpps | 100 – 10 000 kpps |
+| Scan speed | 2 kpps | from 100 kpps |
 | Targets per scan | 1 country / max 5 ports / max ~1M IPs | Unlimited |
 | Scans per day | 3 | Unlimited |
 | Concurrent scans | 1 (no queue) | up to 10 in queue |
@@ -74,7 +81,7 @@ Pick which modules run; results are returned per host/port in the scan status re
 | API requests | 100 / day | 1 000+ / day, scales with plan |
 
 Free tier is meant for trying the API and one-off small scans. For real recon
-you need a paid plan — see https://scansearch.net/pricing/.
+you need a paid plan.
 
 ## Install
 

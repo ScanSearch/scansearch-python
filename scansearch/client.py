@@ -84,7 +84,7 @@ class Client:
                 enrichment. Optional extras: ``"subdomains"``, ``"tech"``.
             speed: Scan speed in kpps (packets-per-second × 1000). Defaults to your
                 plan's scanner_speed. Free tier is capped at ``2`` kpps; paid plans
-                range ``100`` (entry) — ``10000`` (high-throughput) kpps.
+                start at ``100`` kpps. See https://scansearch.net/pricing/.
 
         Returns ``{"task_id": int, "status": "pending" | "queued"}``.
 
