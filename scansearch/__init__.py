@@ -1,9 +1,9 @@
 """
 ScanSearch Python SDK — official client for the ScanSearch API.
 
-ScanSearch is a live internet scanning and exposure-research platform — a
-fresh-data alternative to Shodan and Censys. Get an API key at
-https://scansearch.net/dashboard/api-keys/
+ScanSearch is an on-demand internet scanner. Trigger a live SYN+service scan
+of any IP, CIDR, country or domain through the REST API and get fresh results
+in seconds. Get an API key at https://scansearch.net/dashboard/api-keys/
 """
 
 from .client import Client

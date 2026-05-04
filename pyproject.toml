@@ -5,17 +5,16 @@ build-backend = "hatchling.build"
 [project]
 name = "scansearch"
 version = "0.1.0"
-description = "Official Python SDK and CLI for ScanSearch — live internet scanning & exposure research, an alternative to Shodan and Censys."
+description = "Official Python SDK and CLI for ScanSearch — on-demand internet scanner. Trigger live SYN+service scans of any IP, CIDR or country via REST API."
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "ScanSearch", email = "contact@scansearch.net" }]
 requires-python = ">=3.8"
 keywords = [
-    "scansearch", "shodan", "censys", "fofa",
-    "port-scanner", "network-scanner", "osint",
-    "asm", "attack-surface", "internet-exposure",
-    "pentesting", "bug-bounty", "security",
-    "cve", "asn", "ipv4",
+    "scansearch", "port-scanner", "network-scanner",
+    "syn-scan", "service-detection", "on-demand-scan",
+    "pentesting", "bug-bounty", "recon", "asset-discovery",
+    "security", "infosec", "ipv4-scan",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -44,9 +43,9 @@ dependencies = [
 [project.urls]
 Homepage = "https://scansearch.net"
 Documentation = "https://scansearch.net/resources/api-docs/"
-Repository = "https://github.com/scansearch/scansearch-python"
-Issues = "https://github.com/scansearch/scansearch-python/issues"
-Changelog = "https://github.com/scansearch/scansearch-python/blob/main/CHANGELOG.md"
+Repository = "https://github.com/ScanSearch/scansearch-python"
+Issues = "https://github.com/ScanSearch/scansearch-python/issues"
+Changelog = "https://github.com/ScanSearch/scansearch-python/blob/main/CHANGELOG.md"
 
 [project.scripts]
 scansearch = "scansearch.cli:main"

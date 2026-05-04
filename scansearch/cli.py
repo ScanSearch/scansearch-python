@@ -1,10 +1,11 @@
 """
-ScanSearch CLI — query the ScanSearch API from your terminal.
+ScanSearch CLI — launch on-demand internet scans from your terminal.
 
 Examples:
-    scansearch search "port:9200 country:DE"
-    scansearch ip 1.1.1.1
-    scansearch scan 192.0.2.0/24 --ports 22,80,443
+    scansearch scan 192.0.2.0/24 --ports 22,80,443 --wait
+    scansearch scan country:DE --ports 9200 --speed 1000 --wait
+    scansearch status 1234
+    scansearch stop 1234
 """
 from __future__ import annotations
 
@@ -22,18 +23,6 @@ from .exceptions import ScanSearchError
 def _print_json(data: Any) -> None:
     json.dump(data, sys.stdout, indent=2, ensure_ascii=False, default=str)
     sys.stdout.write("\n")
-
-
-def cmd_search(api: Client, args) -> int:
-    res = api.search(args.query, page=args.page, per_page=args.per_page,
-                     country=args.country, port=args.port, service=args.service)
-    _print_json(res)
-    return 0
-
-
-def cmd_ip(api: Client, args) -> int:
-    _print_json(api.ip(args.ip))
-    return 0
 
 
 def cmd_scan(api: Client, args) -> int:
@@ -65,7 +54,7 @@ def cmd_stop(api: Client, args) -> int:
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(
         prog="scansearch",
-        description="ScanSearch CLI — live internet scanning & exposure research.",
+        description="ScanSearch CLI — on-demand internet scanner.",
         epilog="API key required. Get one: https://scansearch.net/dashboard/api-keys/",
     )
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
@@ -73,26 +62,17 @@ def main(argv=None) -> int:
                         help="API key (env: SCANSEARCH_API_KEY).")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
-    p_search = sub.add_parser("search", help="Run a search query.")
-    p_search.add_argument("query")
-    p_search.add_argument("--page", type=int, default=1)
-    p_search.add_argument("--per-page", type=int, default=20)
-    p_search.add_argument("--country")
-    p_search.add_argument("--port", type=int)
-    p_search.add_argument("--service")
-    p_search.set_defaults(func=cmd_search)
-
-    p_ip = sub.add_parser("ip", help="Look up a single IP.")
-    p_ip.add_argument("ip")
-    p_ip.set_defaults(func=cmd_ip)
-
     p_scan = sub.add_parser("scan", help="Launch a live scan.")
-    p_scan.add_argument("targets", nargs="+", help="One or more CIDR / IP / domain targets.")
-    p_scan.add_argument("--ports", default="1-1000")
-    p_scan.add_argument("--modules", default="ports", help='"ports" or "ports,services"')
-    p_scan.add_argument("--speed", type=int, help="kpps override")
+    p_scan.add_argument("targets", nargs="+",
+                        help="One or more CIDR / IP / country:CC / domain targets.")
+    p_scan.add_argument("--ports", default="1-1000",
+                        help='Port spec: "22,80,443" or "1-65535".')
+    p_scan.add_argument("--modules", default="ports",
+                        help='Comma list: "ports" or "ports,services".')
+    p_scan.add_argument("--speed", type=int, help="Scan speed in kpps (overrides plan default).")
     p_scan.add_argument("--wait", action="store_true", help="Block until scan finishes.")
-    p_scan.add_argument("--timeout", type=int, default=1800)
+    p_scan.add_argument("--timeout", type=int, default=1800,
+                        help="Wait deadline in seconds when --wait (default 1800).")
     p_scan.set_defaults(func=cmd_scan)
 
     p_status = sub.add_parser("status", help="Check scan status.")
