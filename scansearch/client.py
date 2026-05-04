@@ -79,8 +79,9 @@ class Client:
                     ``["country:DE"]`` — whole country
                     ``["example.com"]`` — domain (resolved to IPs server-side)
             ports: Port spec — single ``"80"``, list ``"22,80,443"``, range ``"1-65535"``.
-            modules: ``["ports"]`` (default) or ``["ports", "services"]`` for service detection.
-                Optional extras: ``"subdomains"``, ``"screenshots"``, ``"technologies"``.
+            modules: ``["ports"]`` (default) or ``["ports", "services"]`` for full
+                service / TLS / HTTP / GeoIP / RDAP / threat / CVE / industrial-protocol
+                enrichment. Optional extras: ``"subdomains"``, ``"tech"``.
             speed: Scan speed in kpps (packets-per-second × 1000). Defaults to your
                 plan's scanner_speed. Free tier is capped at ``2`` kpps; paid plans
                 range ``100`` (entry) — ``10000`` (high-throughput) kpps.

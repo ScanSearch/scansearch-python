@@ -31,18 +31,35 @@ no cached snapshots — actual scans every time.
 
 ## What gets collected
 
-You pick which modules run; results are returned in the scan status response.
+Pick which modules run; results are returned per host/port in the scan status response.
+
+### Core (always returned for `ports` + `services` modules)
+
+| Field group | Collects |
+|---|---|
+| **Service identification** | service name, protocol, banner, software product / vendor / version, CPE, match source, probe used, confidence score |
+| **TLS / certificate** | TLS version + cipher, cert issuer / subject / SANs / expiry, SHA-256, age, **JARM** fingerprint, **JA3S** fingerprint |
+| **HTTP** | title, server header, status code, full response headers, body hash, favicon hash, redirect chain, robots.txt, security.txt |
+| **OS detection** | vendor, family |
+| **SSH** | host fingerprint, **HASSH** server fingerprint, host-key type |
+| **SMB** | hostname, domain, OS |
+| **Reverse DNS** | hostname, rDNS records |
+| **DNS records** | MX, NS, TXT, SPF, DMARC, DKIM presence |
+| **RDAP / WHOIS** | netname, country, description, abuse email, org, registration date, allocated CIDR |
+| **GeoIP / network** | country, city, region, lat/lng, ASN + ASN org, timezone, continent |
+| **Threat intelligence** | threat type, threat name, threat score, WAF detection, honeypot score, taxonomy tags |
+| **CMS / fingerprinting** | CMS detection, exposed-API flagging |
+| **CVE matching** | CVE IDs, CVE count, max CVSS for fingerprinted versions |
+| **Certificate Transparency** | CT-derived domain list per cert |
+| **Industrial / IoT** | MQTT (auth mode), Modbus (unit ID, device), BACnet (device info) |
+| **Cloud** | cloud provider detection |
+
+### Optional modules
 
 | Module | Collects |
 |---|---|
-| `ports` | Open TCP ports (SYN scan) per host: `ip:port` pairs. |
-| `services` | For each open port: service name, protocol, banner, software fingerprint, vendor and version when detectable. |
-| `subdomains` | Subdomain enumeration for any domains in your target list. |
-| `screenshots` | Full-page screenshots of any HTTP/HTTPS service found. |
-| `technologies` | Web technology stack detection (CMS, frameworks, JS libs, server software). |
-| `security_headers` | HTTP security-header audit (CSP, HSTS, X-Frame-Options, …). |
-| `cve` | CVE matching for fingerprinted services with known versions. |
-| `rdp` | RDP-specific data: NLA mode, certificate, screenshot. |
+| `subdomains` | Subdomain enumeration (subfinder + crt.sh + DNS resolve) for any domain targets in your list. |
+| `tech` | Web technology-stack detection (Wappalyzer-style) — CMS, frameworks, JS libs, server software. |
 
 ## Free vs Paid limits
 
