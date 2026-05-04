@@ -22,15 +22,42 @@ no cached snapshots — actual scans every time.
 ## Scan parameters
 
 - **Ports** — any selection: `"22,80,443"`, ranges `"1-65535"`, or full top-list.
-- **Modules** — pick what gets collected:
-  - `ports` — open-port discovery only (fastest).
-  - `ports`, `services` — port + service/banner detection.
-  - extra enrichment available: subdomains, screenshots, technology stack, security headers, CVE matching.
+- **Modules** — pick what gets collected (see [What gets collected](#what-gets-collected) below).
 - **Speed** — your scanner kpps (packets-per-second × 1000), set on your plan:
   - Free tier: capped at `2` kpps.
   - Paid: from `100` kpps (entry) up to `10000` kpps (high-throughput recon).
 - **Wait or fire-and-forget** — block until done with `scan_wait()`, or poll
   with `scan_status()`.
+
+## What gets collected
+
+You pick which modules run; results are returned in the scan status response.
+
+| Module | Collects |
+|---|---|
+| `ports` | Open TCP ports (SYN scan) per host: `ip:port` pairs. |
+| `services` | For each open port: service name, protocol, banner, software fingerprint, vendor and version when detectable. |
+| `subdomains` | Subdomain enumeration for any domains in your target list. |
+| `screenshots` | Full-page screenshots of any HTTP/HTTPS service found. |
+| `technologies` | Web technology stack detection (CMS, frameworks, JS libs, server software). |
+| `security_headers` | HTTP security-header audit (CSP, HSTS, X-Frame-Options, …). |
+| `cve` | CVE matching for fingerprinted services with known versions. |
+| `rdp` | RDP-specific data: NLA mode, certificate, screenshot. |
+
+## Free vs Paid limits
+
+| | Free | Paid |
+|---|---|---|
+| Scan speed | 2 kpps | 100 – 10 000 kpps |
+| Targets per scan | 1 country / max 5 ports / max ~1M IPs | Unlimited |
+| Scans per day | 3 | Unlimited |
+| Concurrent scans | 1 (no queue) | up to 10 in queue |
+| Results visible (UI) | First 1 000 | Full result set |
+| Download (CSV / TXT) | First 100 rows | Full export |
+| API requests | 100 / day | 1 000+ / day, scales with plan |
+
+Free tier is meant for trying the API and one-off small scans. For real recon
+you need a paid plan — see https://scansearch.net/pricing/.
 
 ## Install
 
