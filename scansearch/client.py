@@ -82,8 +82,8 @@ class Client:
             modules: ``["ports"]`` (default) or ``["ports", "services"]`` for service detection.
                 Optional extras: ``"subdomains"``, ``"screenshots"``, ``"technologies"``.
             speed: Scan speed in kpps (packets-per-second × 1000). Defaults to your
-                plan's scanner_speed. Free tier is capped low; paid plans range
-                ``100`` (entry) — ``10000`` (high-throughput) kpps.
+                plan's scanner_speed. Free tier is capped at ``2`` kpps; paid plans
+                range ``100`` (entry) — ``10000`` (high-throughput) kpps.
 
         Returns ``{"task_id": int, "status": "pending" | "queued"}``.
 

@@ -27,7 +27,7 @@ no cached snapshots — actual scans every time.
   - `ports`, `services` — port + service/banner detection.
   - extra enrichment available: subdomains, screenshots, technology stack, security headers, CVE matching.
 - **Speed** — your scanner kpps (packets-per-second × 1000), set on your plan:
-  - Free tier: small probe scans only.
+  - Free tier: capped at `2` kpps.
   - Paid: from `100` kpps (entry) up to `10000` kpps (high-throughput recon).
 - **Wait or fire-and-forget** — block until done with `scan_wait()`, or poll
   with `scan_status()`.
