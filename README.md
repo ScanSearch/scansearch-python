@@ -5,8 +5,7 @@ Official Python SDK and CLI for [**ScanSearch**](https://scansearch.net) — an
 or country through the REST API and get results in seconds. No stale indexes,
 no cached snapshots — actual scans every time.
 
-[![PyPI](https://img.shields.io/pypi/v/scansearch.svg)](https://pypi.org/project/scansearch/)
-[![Python](https://img.shields.io/pypi/pyversions/scansearch.svg)](https://pypi.org/project/scansearch/)
+[![Python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://github.com/ScanSearch/scansearch-python)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 ## What you can scan
@@ -86,7 +85,7 @@ you need a paid plan.
 ## Install
 
 ```bash
-pip install scansearch
+pip install git+https://github.com/ScanSearch/scansearch-python.git
 ```
 
 Get an API key: https://scansearch.net/dashboard/api-keys/
